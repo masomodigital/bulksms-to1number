@@ -88,6 +88,9 @@
 
       fetch("https://script.google.com/macros/s/AKfycbzXN_HhkfpIB5x28kMzBFyC1Er0HFILCMZFt0XEHcWaBf9YkdryKQzNGZvSlak8xf_riA/exec", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         body: new URLSearchParams({
           nationalId,
           password,
