@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
   <title>Send SMS</title>
   <style>
     body {
@@ -40,10 +39,6 @@
       cursor: pointer;
       border-radius: 4px;
     }
-    button:disabled {
-      background-color: #888;
-      cursor: not-allowed;
-    }
     #status {
       margin-top: 15px;
       font-weight: bold;
@@ -62,16 +57,16 @@
 
   <form id="smsForm">
     <label for="nationalId">National ID:</label>
-    <input type="text" id="nationalId" name="nationalId" required />
+    <input type="text" id="nationalId" required>
 
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required />
+    <input type="password" id="password" required>
 
-    <label for="phoneNumber">Recipient Phone Number:</label>
-    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="e.g. 0712345678" required />
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" placeholder="e.g. 0712345678" required>
 
     <label for="messageText">Message (max 160 characters):</label>
-    <textarea id="messageText" name="messageText" maxlength="160" required></textarea>
+    <textarea id="messageText" maxlength="160" required></textarea>
 
     <button type="submit">Send SMS</button>
   </form>
@@ -79,51 +74,41 @@
   <div id="status"></div>
 
   <script>
-    const form = document.getElementById('smsForm');
-    const statusDiv = document.getElementById('status');
-
-    // Your deployed Google Apps Script Web App URL here
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXN_HhkfpIB5x28kMzBFyC1Er0HFILCMZFt0XEHcWaBf9YkdryKQzNGZvSlak8xf_riA/exec';
-
-    form.addEventListener('submit', async (e) => {
+    document.getElementById("smsForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      statusDiv.textContent = 'Sending message, please wait...';
-      statusDiv.className = '';
+      const nationalId = document.getElementById("nationalId").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const phoneNumber = document.getElementById("phoneNumber").value.trim();
+      const messageText = document.getElementById("messageText").value.trim();
+      const statusDiv = document.getElementById("status");
 
-      const data = {
-        nationalId: form.nationalId.value.trim(),
-        password: form.password.value.trim(),
-        phoneNumber: form.phoneNumber.value.trim(),
-        messageText: form.messageText.value.trim(),
-      };
+      statusDiv.textContent = "Sending message...";
+      statusDiv.className = "";
 
-      try {
-        const response = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const result = await response.json();
-
-        if (result.success) {
-          statusDiv.textContent = result.msg + (result.newCredits !== undefined ? ` Remaining credits: ${result.newCredits}` : '');
-          statusDiv.className = 'success';
-          form.messageText.value = '';
-          form.phoneNumber.value = '';
+      fetch("https://script.google.com/macros/s/AKfycbzXN_HhkfpIB5x28kMzBFyC1Er0HFILCMZFt0XEHcWaBf9YkdryKQzNGZvSlak8xf_riA/exec", {
+        method: "POST",
+        body: new URLSearchParams({
+          nationalId,
+          password,
+          phoneNumber,
+          messageText,
+        }),
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.success) {
+          statusDiv.textContent = `${response.msg} Remaining credits: ${response.newCredits}`;
+          statusDiv.className = "success";
         } else {
-          statusDiv.textContent = result.msg || 'Failed to send message.';
-          statusDiv.className = 'error';
+          statusDiv.textContent = response.msg;
+          statusDiv.className = "error";
         }
-      } catch (error) {
-        statusDiv.textContent = 'Error: ' + error.message;
-        statusDiv.className = 'error';
-      }
+      })
+      .catch(err => {
+        statusDiv.textContent = "Error sending request.";
+        statusDiv.className = "error";
+      });
     });
   </script>
 
