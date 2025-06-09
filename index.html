@@ -1,77 +1,143 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Send SMS</title>
   <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: Arial, sans-serif;
-      max-width: 400px;
-      margin: 30px auto;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+    }
+    main {
+      background: white;
+      max-width: 420px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 30px 25px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    h2 {
+      color: #2E7D32;
+      font-weight: 700;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    form {
+      text-align: left;
     }
     label {
       display: block;
-      margin-top: 15px;
-      font-weight: bold;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #333;
+      font-size: 0.95rem;
     }
-    input[type="text"], input[type="password"], textarea {
+    input[type="text"],
+    input[type="password"],
+    textarea {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-      font-size: 14px;
+      padding: 12px 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1.5px solid #ccc;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      font-family: inherit;
+      resize: vertical;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    textarea:focus {
+      border-color: #4CAF50;
+      outline: none;
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
     }
     textarea {
-      resize: vertical;
-      height: 80px;
+      min-height: 100px;
+      max-height: 150px;
     }
     button {
-      margin-top: 20px;
-      padding: 10px;
+      margin-top: 30px;
       width: 100%;
-      background-color: #4CAF50;
+      padding: 14px;
+      background: #4CAF50;
       border: none;
+      border-radius: 8px;
       color: white;
-      font-size: 16px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
-      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+    button:hover {
+      background-color: #388E3C;
     }
     #status {
-      margin-top: 15px;
-      font-weight: bold;
+      margin-top: 20px;
+      font-weight: 700;
+      font-size: 1rem;
+      min-height: 24px;
+      user-select: none;
     }
     #status.success {
-      color: green;
+      color: #2E7D32;
     }
     #status.error {
-      color: red;
+      color: #D32F2F;
+    }
+    @media (max-width: 480px) {
+      main {
+        padding: 25px 15px;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      label {
+        font-size: 0.9rem;
+      }
+      button {
+        font-size: 1rem;
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h2 style="color: green; font-weight: bold;">SEND SMS TO 1 CONTACT</h2>
+  <main>
+    <h2>SEND SMS TO 1 CONTACT</h2>
 
-  <form id="smsForm">
-    <label for="nationalId">National ID:</label>
-    <input type="text" id="nationalId" required>
+    <form id="smsForm">
+      <label for="nationalId">National ID:</label>
+      <input type="text" id="nationalId" required />
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" required />
 
-    <label for="phoneNumber">Phone Number:</label>
-    <input type="text" id="phoneNumber" placeholder="e.g. 0712345678" required>
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" id="phoneNumber" placeholder="e.g. 0712345678" required />
 
-    <label for="messageText">Message (max 160 characters):</label>
-    <textarea id="messageText" maxlength="160" required></textarea>
+      <label for="messageText">Message (max 160 characters):</label>
+      <textarea id="messageText" maxlength="160" required></textarea>
 
-    <button type="submit">Send SMS</button>
-  </form>
+      <button type="submit">Send SMS</button>
+    </form>
 
-  <div id="status"></div>
+    <div id="status"></div>
+  </main>
 
   <script>
     document.getElementById("smsForm").addEventListener("submit", function (e) {
@@ -117,4 +183,3 @@
 
 </body>
 </html>
-
