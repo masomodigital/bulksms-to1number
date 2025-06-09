@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Send SMS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:disabled {
+      background-color: #888;
+      cursor: not-allowed;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    #status.success {
+      color: green;
+    }
+    #status.error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="color: green; font-weight: bold;">SEND SMS TO 1 CONTACT</h2>
+
+  <form id="smsForm">
+    <label for="nationalId">National ID:</label>
+    <input type="text" id="nationalId" name="nationalId" required />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required />
+
+    <label for="phoneNumber">Recipient Phone Number:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="e.g. 0712345678" required />
+
+    <label for="messageText">Message (max 160 characters):</label>
+    <textarea id="messageText" name="messageText" maxlength="160" required></textarea>
+
+    <button type="submit">Send SMS</button>
+  </form>
+
+  <div id="status"></div>
+
+  <script>
+    const form = document.getElementById('smsForm');
+    const statusDiv = document.getElementById('status');
+
+    // Replace with your actual deployed Apps Script web app POST URL
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXN_HhkfpIB5x28kMzBFyC1Er0HFILCMZFt0XEHcWaBf9YkdryKQzNGZvSlak8xf_riA/exec';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      statusDiv.textContent = 'Sending message, please wait...';
+      statusDiv.className = '';
+
+      const data = {
+        nationalId: form.nationalId.value.trim(),
+        password: form.password.value.trim(),
+        phoneNumber: form.phoneNumber.value.trim(),
+        messageText: form.messageText.value.trim(),
+      };
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          statusDiv.textContent = result.msg + (result.newCredits !== undefined ? ` Remaining credits: ${result.newCredits}` : '');
+          statusDiv.className = 'success';
+          form.messageText.value = '';
+          form.phoneNumber.value = '';
+          // Optionally reload or reset form here if needed
+        } else {
+          statusDiv.textContent = result.msg || 'Failed to send message.';
+          statusDiv.className = 'error';
+        }
+      } catch (error) {
+        statusDiv.textContent = 'Error: ' + error.message;
+        statusDiv.className = 'error';
+      }
+    });
+  </script>
+
+</body>
+</html>
