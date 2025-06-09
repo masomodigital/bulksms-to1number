@@ -82,7 +82,7 @@
     const form = document.getElementById('smsForm');
     const statusDiv = document.getElementById('status');
 
-    // Replace with your actual deployed Apps Script web app POST URL
+    // Your deployed Google Apps Script Web App URL here
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXN_HhkfpIB5x28kMzBFyC1Er0HFILCMZFt0XEHcWaBf9YkdryKQzNGZvSlak8xf_riA/exec';
 
     form.addEventListener('submit', async (e) => {
@@ -116,7 +116,6 @@
           statusDiv.className = 'success';
           form.messageText.value = '';
           form.phoneNumber.value = '';
-          // Optionally reload or reset form here if needed
         } else {
           statusDiv.textContent = result.msg || 'Failed to send message.';
           statusDiv.className = 'error';
@@ -130,3 +129,4 @@
 
 </body>
 </html>
+
