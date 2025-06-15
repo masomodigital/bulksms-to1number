@@ -143,6 +143,7 @@
     document.getElementById("smsForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
+      const form = document.getElementById("smsForm");
       const nationalId = document.getElementById("nationalId").value.trim();
       const password = document.getElementById("password").value.trim();
       const phoneNumber = document.getElementById("phoneNumber").value.trim();
@@ -169,6 +170,7 @@
         if (response.success) {
           statusDiv.textContent = `${response.msg}`;
           statusDiv.className = "success";
+          form.reset(); // Clear the form on success
         } else {
           statusDiv.textContent = response.msg;
           statusDiv.className = "error";
