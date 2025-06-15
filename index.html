@@ -167,7 +167,7 @@
       .then(res => res.json())
       .then(response => {
         if (response.success) {
-          statusDiv.textContent = ${response.msg} Remaining credits: ${response.newCredits};
+          statusDiv.textContent = `${response.msg} Remaining credits: ${response.newCredits}`;
           statusDiv.className = "success";
         } else {
           statusDiv.textContent = response.msg;
