@@ -167,8 +167,9 @@
       .then(res => res.json())
       .then(response => {
         if (response.success) {
-          statusDiv.textContent = ${response.msg} Remaining credits: ${response.newCredits};
+          statusDiv.textContent = `${response.msg} Remaining credits: ${response.newCredits}`;
           statusDiv.className = "success";
+          document.getElementById("smsForm").reset(); // Clears the form
         } else {
           statusDiv.textContent = response.msg;
           statusDiv.className = "error";
@@ -183,3 +184,4 @@
 
 </body>
 </html>
+
