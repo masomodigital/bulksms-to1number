@@ -169,7 +169,7 @@
         if (response.success) {
           statusDiv.textContent = `${response.msg} Remaining credits: ${response.newCredits}`;
           statusDiv.className = "success";
-          document.getElementById("smsForm").reset(); // Clears the form
+          document.getElementById("smsForm").reset(); // ← ONLY ADDITION
         } else {
           statusDiv.textContent = response.msg;
           statusDiv.className = "error";
