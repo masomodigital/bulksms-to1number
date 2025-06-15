@@ -169,7 +169,7 @@
         if (response.success) {
           statusDiv.textContent = `${response.msg} Remaining credits: ${response.newCredits}`;
           statusDiv.className = "success";
-          document.getElementById("smsForm").reset(); // ✅ This is the only line added
+          document.getElementById("smsForm").reset(); // Form clears here
         } else {
           statusDiv.textContent = response.msg;
           statusDiv.className = "error";
@@ -184,4 +184,3 @@
 
 </body>
 </html>
-
