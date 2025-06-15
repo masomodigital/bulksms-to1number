@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <title>Send SMS</title>
   <style>
-    * { box-sizing: border-box; }
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
@@ -31,7 +34,9 @@
       font-size: 1.8rem;
       letter-spacing: 1px;
     }
-    form { text-align: left; }
+    form {
+      text-align: left;
+    }
     label {
       display: block;
       margin-top: 20px;
@@ -87,19 +92,34 @@
       min-height: 24px;
       user-select: none;
     }
-    #status.success { color: #2E7D32; }
-    #status.error { color: #D32F2F; }
+    #status.success {
+      color: #2E7D32;
+    }
+    #status.error {
+      color: #D32F2F;
+    }
     @media (max-width: 480px) {
-      main { padding: 25px 15px; }
-      h2 { font-size: 1.5rem; }
-      label { font-size: 0.9rem; }
-      button { font-size: 1rem; padding: 12px; }
+      main {
+        padding: 25px 15px;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      label {
+        font-size: 0.9rem;
+      }
+      button {
+        font-size: 1rem;
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
+
   <main>
     <h3>SEND SMS TO 1 CONTACT</h3>
+
     <form id="smsForm">
       <label for="nationalId">National ID:</label>
       <input type="text" id="nationalId" required />
@@ -149,7 +169,7 @@
         if (response.success) {
           statusDiv.textContent = `${response.msg} Remaining credits: ${response.newCredits}`;
           statusDiv.className = "success";
-          document.getElementById("smsForm").reset(); // ✅ clear fields
+          document.getElementById("smsForm").reset(); // ✅ This is the only line added
         } else {
           statusDiv.textContent = response.msg;
           statusDiv.className = "error";
@@ -161,5 +181,7 @@
       });
     });
   </script>
+
 </body>
 </html>
+
