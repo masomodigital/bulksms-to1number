@@ -4,161 +4,192 @@
   <meta charset="UTF-8" />
   <title>Send SMS</title>
   <style>
-    /* Reset and base */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-      margin: 0;
-      min-height: 100vh;
-      padding: 20px;
-      overflow: hidden;
-      position: relative;
-    }
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
 
-    /* Bubble background animation */
-    .bubble {
-      position: absolute;
-      border-radius: 50%;
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+    margin: 0;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;   /* center horizontally */
+    align-items: center;       /* center vertically */
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Bubble background animation */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    background: white;
+    animation: floatUp 10s infinite ease-in;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(100vh) scale(0.6);
       opacity: 0.3;
-      animation: floatUp 10s infinite ease-in;
-      background: white;
     }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0.6); opacity: 0.3; }
-      50% { opacity: 0.5; }
-      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateY(-10vh) scale(1);
+      opacity: 0;
+    }
+  }
+
+  main {
+    background: white;
+    max-width: 460px;
+    width: 100%;
+    border-radius: 12px;
+    padding: 30px 25px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  h3 {
+    color: #2E7D32;
+    font-weight: 700;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+
+  form {
+    text-align: left;
+  }
+
+  label {
+    display: block;
+    margin-top: 20px;
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    width: 100%;
+    padding: 14px 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+    outline: none;
+  }
+
+  textarea {
+    min-height: 120px;
+    max-height: 180px;
+  }
+
+  button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 16px;
+    background: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    letter-spacing: 0.5px;
+  }
+
+  button:hover {
+    background-color: #388E3C;
+  }
+
+  #status {
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 1rem;
+    min-height: 24px;
+    user-select: none;
+  }
+
+  #status.success {
+    color: #2E7D32;
+  }
+
+  #status.error {
+    color: #D32F2F;
+  }
+
+  a.download-link {
+    display: inline-block;
+    margin-top: 12px;
+    width: 100%;
+    padding: 14px;
+    background-color: #D32F2F;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease;
+  }
+
+  a.download-link:hover {
+    background-color: #B71C1C;
+  }
+
+  @media (max-width: 480px) {
+    main {
+      padding: 24px 18px;
     }
 
-    main {
-      background: white;
-      max-width: 460px;
-      width: 100%;
-      border-radius: 12px;
-      padding: 30px 25px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
     h3 {
-      color: #2E7D32;
-      font-weight: 700;
-      margin-bottom: 25px;
-      font-size: 1.8rem;
-      letter-spacing: 1px;
+      font-size: 1.5rem;
     }
-    form {
-      text-align: left;
-    }
+
     label {
-      display: block;
-      margin-top: 20px;
-      font-weight: 600;
-      color: #333;
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
+
     input[type="text"],
     input[type="password"],
     textarea {
-      width: 100%;
-      padding: 14px 10px;
-      margin-top: 6px;
-      border-radius: 8px;
-      border: 1.5px solid #ccc;
-      font-size: 1.1rem;
-      transition: border-color 0.3s ease;
-      resize: vertical;
-    }
-    input[type="text"]:focus,
-    input[type="password"]:focus,
-    textarea:focus {
-      border-color: #4CAF50;
-      box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
-      outline: none;
-    }
-    textarea {
-      min-height: 120px;
-      max-height: 180px;
-    }
-    button {
-      margin-top: 30px;
-      width: 100%;
-      padding: 16px;
-      background: #4CAF50;
-      border: none;
-      border-radius: 8px;
-      color: white;
       font-size: 1.2rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      letter-spacing: 0.5px;
+      padding: 16px;
     }
-    button:hover {
-      background-color: #388E3C;
-    }
-    #status {
-      margin-top: 20px;
-      font-weight: 700;
-      font-size: 1rem;
-      min-height: 24px;
-      user-select: none;
-    }
-    #status.success {
-      color: #2E7D32;
-    }
-    #status.error {
-      color: #D32F2F;
+
+    button {
+      font-size: 1.3rem;
+      padding: 18px;
     }
 
     a.download-link {
-      display: inline-block;
-      margin-top: 12px;
-      width: 100%;
-      padding: 14px;
-      background-color: #D32F2F;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: background-color 0.3s ease;
+      padding: 18px;
+      font-size: 1.2rem;
     }
-    a.download-link:hover {
-      background-color: #B71C1C;
-    }
-
-    @media (max-width: 480px) {
-      main {
-        padding: 24px 18px;
-      }
-      h3 {
-        font-size: 1.5rem;
-      }
-      label {
-        font-size: 1.1rem;
-      }
-      input[type="text"],
-      input[type="password"],
-      textarea {
-        font-size: 1.2rem;
-        padding: 16px;
-      }
-      button {
-        font-size: 1.3rem;
-        padding: 18px;
-      }
-      a.download-link {
-        padding: 18px;
-        font-size: 1.2rem;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <!-- Bubble elements -->
