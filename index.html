@@ -220,7 +220,9 @@
     pattern="^0\d{9}$" 
     title="Enter a 10‑digit phone number starting with 0 (e.g., 0712345678)" 
     oninput="this.value = this.value.replace(/\D/g, '').slice(0,10)" 
+    style="width: 200px; padding: 8px; font-size: 16px;"
 />
+
       <label for="messageText">Message (max 160 characters):</label>
       <textarea id="messageText" maxlength="160" required></textarea>
 
